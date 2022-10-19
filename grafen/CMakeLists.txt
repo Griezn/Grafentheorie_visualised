@@ -1,0 +1,1 @@
+add_library(grafen Graaf.cpp Graaf.h)
