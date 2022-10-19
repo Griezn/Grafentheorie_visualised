@@ -16,9 +16,10 @@ public:
     void select();
     void unSelect();
 
-    int graad_;
+    int graad() const{return connections.size();};
 
     std::vector<Boog*> bogen_;
+    std::vector<Knoop*> connections;
 
 private:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;

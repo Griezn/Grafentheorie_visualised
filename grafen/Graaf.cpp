@@ -4,7 +4,7 @@
 
 #include "Graaf.h"
 
-Knoop::Knoop(float x, float y):graad_(0), shape_(3.f){
+Knoop::Knoop(float x, float y):shape_(3.f){
     this->setOrigin(shape_.getRadius(), shape_.getRadius());
     this->setPosition(x, y);
 }
@@ -32,9 +32,10 @@ Boog::Boog(Knoop* k1, Knoop* k2):gewicht(1){
     line_[1] = sf::Vertex(k2->getPosition());
 
     k1->bogen_.emplace_back(this);
-    k1->graad_++;
+    k1->connections.emplace_back(k2);
+
     k2->bogen_.emplace_back(this);
-    k2->graad_++;
+    k2->connections.emplace_back(k1);
 }
 
 Boog::Boog(Knoop& k1, Knoop& k2, int gewicht) : gewicht(gewicht) {
@@ -43,9 +44,10 @@ Boog::Boog(Knoop& k1, Knoop& k2, int gewicht) : gewicht(gewicht) {
     line_[1] = sf::Vertex(k2.getPosition());
 
     k1.bogen_.emplace_back(this);
-    k1.graad_++;
+    k1.connections.emplace_back(&k2);
+
     k2.bogen_.emplace_back(this);
-    k2.graad_++;
+    k2.connections.emplace_back(&k1);
 }
 
 void Boog::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -96,4 +98,3 @@ Knoop *Graaf::findKnoop(float x, float y) {
     }
     return nullptr;
 }
-
